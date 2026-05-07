@@ -1,0 +1,48 @@
+# Python/runtime artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Generated outputs and review artifacts
+outputs/
+preview/
+samples/
+reports/
+*.zip
+
+# Raw data and test data must stay local
+data/
+raw_data/
+test_data/
+fixtures/
+tests/fixtures/
+tests/data/
+*.xlsx
+*.xls
+*.xlsm
+*.docx
+*.doc
+*.csv
+*.ipynb
+.ipynb_checkpoints/
+
+# Archive/resource-fork noise from sample code bundles
+__MACOSX/
+._*
+
+# Worktree / editor state
+.worktrees/
+worktrees/
+.idea/
+.vscode/
