@@ -17,6 +17,8 @@ class XlsxWorkbook:
         if sheet_name not in self._workbook.sheetnames:
             return []
         sheet = self._workbook[sheet_name]
+        if hasattr(sheet, "reset_dimensions"):
+            sheet.reset_dimensions()
         rows: list[list[str]] = []
         for row in sheet.iter_rows(values_only=True):
             rows.append([cell_to_text(value) for value in row])
