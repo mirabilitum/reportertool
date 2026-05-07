@@ -25,6 +25,26 @@ class PackageLayoutTest(unittest.TestCase):
 
         self.assertFalse(legacy_dir.exists())
 
+    def test_pipeline_business_modules_are_top_level_packages(self) -> None:
+        expected_modules = {
+            "questionnaire": "Word 问卷解析与题目合并",
+            "data_cleaning": "原始 Excel 数据读取、清洗和合并",
+            "intermediate": "事实表、题目表、重构指标和指标汇总",
+            "reporting": "图表、文字、预览和最终报告输出",
+        }
+
+        for module_name, purpose in expected_modules.items():
+            with self.subTest(module_name=module_name):
+                module = importlib.import_module(module_name)
+                self.assertEqual(module.MODULE_PURPOSE, purpose)
+
+        for module_name in ("data_cleaning", "intermediate", "reporting"):
+            module_path = Path(__file__).resolve().parents[1] / "src" / module_name
+            legacy_path = Path(__file__).resolve().parents[1] / "src" / "reportertool" / module_name
+
+            self.assertTrue(module_path.exists())
+            self.assertFalse(legacy_path.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

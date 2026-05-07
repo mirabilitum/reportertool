@@ -37,6 +37,8 @@
 
 第一版问卷归一主体固定为独立顶层包 `src/questionnaire/`；执行入口通过 `src/reportertool/questionnaire_normalize.py` 暴露给主 CLI。`src/reportertool/questionnaire_mapping.py` 只负责读取和查询归一结果，不负责重新计算题目相似度或合并同义题。这样可以避免 CLI 阶段编排同时存在两套归一入口。
 
+表格题和量表题的结构信息优先来自 Word 归一输出：题型、题干、量表选项、矩阵行、矩阵列、上传组件和填空组件。Excel 字段映射和维度映射用于补充答案组件、作答值和 scope 字段；如果 Excel 缺少字段/维度映射，仍保留 Word 组件并在质量检查中说明降级策略。
+
 ### 展示标题策略
 
 图表和报告中使用以下优先级生成可读标题：

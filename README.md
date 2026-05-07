@@ -4,8 +4,11 @@
 
 ## 代码结构
 
-- `src/questionnaire/`：独立 Word 问卷解析与题目合并模块，只处理 DOCX 题目归一，不直接处理 Excel 原始作答数据。
-- `src/reportertool/`：报告工具主入口和共享流程代码。当前 CLI 通过 `normalize-questionnaires` 调用题目归一模块；后续 Excel 原始数据标准化、指标、图表和报告模块也应作为独立职责放在 `src/` 下。
+- `src/questionnaire/`：独立 Word 问卷解析与题目合并模块，只处理 DOCX 题目归一，不直接处理 Excel 原始作答数据。表格题、量表题的题干、题型、选项、矩阵行列和上传组件优先从这里输出。
+- `src/data_cleaning/`：原始 Excel 数据读取、文件配对、标题解析、结构识别、清洗与合并准备。Excel 和 Word 默认位于同一个原始资料目录；如果同目录配对失败，需要输出质量检查并要求补充映射方式。
+- `src/intermediate/`：事实表、题目表、数据重构规则、重构后指标事实表和指标汇总。它连接 `data_cleaning` 的清洗结果与 `questionnaire` 的题目主字典。
+- `src/reporting/`：图表、确定性文字、QA 预览、报告组装、HTML 和 DOCX 输出。它只消费中间层和报告规则，不重新读取原始 Excel。
+- `src/reportertool/`：报告工具主入口、CLI 编排和共享 review 状态，不承载具体业务处理逻辑。
 - `outputs/`、`preview/`、`samples/`：本地生成或早期审阅产物，不纳入 git。
 - 原始数据、测试数据、Excel/Word/CSV 数据文件不纳入 git；仓库只保存源码、文档和非数据配置。
 
