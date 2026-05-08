@@ -51,8 +51,19 @@ class QuestionnaireMapping:
                     components = list(csv.DictReader(f))
         return cls(items, components)
 
-    def lookup(self, subject: str, question_no: str | int) -> QuestionnaireItem | None:
-        return self._by_subject_q.get((subject, str(question_no)))
+    def lookup(self, subject: str, question_no: str | int) -> dict[str, str] | None:
+        item = self._by_subject_q.get((subject, str(question_no)))
+        if item is None:
+            return None
+        return {
+            "norm_id": item.norm_id,
+            "subject": item.subject,
+            "q_no": item.q_no,
+            "role": item.role,
+            "question_type": item.question_type,
+            "question_text": item.question_text,
+            "canonical_question": item.canonical_question,
+        }
 
     def answer_components(self, norm_id: str, subject: str, question_no: str | int) -> list[dict]:
         return list(self._components_by_key.get((norm_id, subject, str(question_no)), []))

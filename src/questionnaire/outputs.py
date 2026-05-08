@@ -433,8 +433,7 @@ def write_outputs(
                 }
             )
     anomaly_fields = ["severity", "source_file", "role", "subject", "q_no", "question_type", "issue", "question_text"]
-    if write_audit_review_tables:
-        write_csv(anomalies_path, anomalies, anomaly_fields)
+    write_csv(anomalies_path, anomalies, anomaly_fields)
 
     workbook_path = output_dir / "normalized_question_mapping.xlsx"
     wb = Workbook()
@@ -502,6 +501,7 @@ def write_outputs(
         manual_normalize_candidate_groups_path,
         workbook_path,
         questions_json,
+        anomalies_path,
     ]
     if write_audit_review_tables:
         output_paths.extend(
@@ -512,7 +512,6 @@ def write_outputs(
                 manual_normalize_candidates_path,
                 manual_merge_validation_path,
                 candidates_path,
-                anomalies_path,
             ]
         )
 
@@ -524,7 +523,7 @@ def write_outputs(
         warning_count=len(anomalies),
         input_paths=input_paths,
         output_paths=output_paths,
-        quality_checks_path=anomalies_path if write_audit_review_tables else workbook_path,
+        quality_checks_path=anomalies_path,
         next_human_action="Review manual_normalize_candidate_groups.csv and fill merge_id; details are in normalized_question_mapping.xlsx.",
         extra={
             "source_files": len(input_paths),
