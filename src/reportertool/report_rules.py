@@ -16,7 +16,7 @@ def read_report_rules(path: str | Path) -> list[dict[str, object]]:
 
 
 def parse_report_rule(row: Mapping[str, str]) -> dict[str, object]:
-    return {
+    rule: dict[str, object] = {
         "report_rule_id": row.get("report_rule_id", ""),
         "chapter_id": row.get("chapter_id", ""),
         "chapter_title": row.get("chapter_title", ""),
@@ -31,6 +31,10 @@ def parse_report_rule(row: Mapping[str, str]) -> dict[str, object]:
         "writing_instruction": row.get("writing_instruction", ""),
         "user_editable": row.get("user_editable", ""),
     }
+    for field in ("title", "canonical_question", "figure_caption", "note_template", "text_template_id", "data_source_text"):
+        if row.get(field, ""):
+            rule[field] = row.get(field, "")
+    return rule
 
 
 def apply_filter_scope(rows: Iterable[Mapping[str, str]], scope: Mapping[str, object]) -> list[Mapping[str, str]]:
